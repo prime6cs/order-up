@@ -25,11 +25,16 @@
             font-weight: bold;
         }
     </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <h1>Please sign in with the school account to continue</h1>
-    <button id="login">Sign in with Google</button>
-    <div id="result"></div>
+    <!-- replace data-client_id with your own google id -->
+    <div id="g_id_onload" data-client_id="827838394950-n1jl23h7nbqprfof6evp731v3o0aesfo.apps.googleusercontent.com" data-callback="handleGoogleSignIn"></div>
+    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="signin_with" data-shape="rectangular" data-logo_alignment="left"></div>
+    <button id="login" style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 14px; border: 1px solid #dadce0; border-radius: 4px; background: white; cursor: pointer;">
+        <img src="https://developers.google.com/identity/images/g-logo.png" width="18" height="18">Sign in with Google
+    </button>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -51,9 +56,11 @@
         const res = document.getElementById("result");
         btn.onclick = async () => {
             try {
+                res.textContent = "Signing in...";
                 const response = await signInWithPopup(auth, provider);
                 const email = response.user.email;
                 // you can change this query if your collection is called smtn different
+                res.textContent = `Signed in as ${email}. Checking orders…`;
                 const q = query(collection(db, "orders"), where("Email Address", "==", email));
                 const shot = await getDocs(q);
                 if (!shot.empty) {
