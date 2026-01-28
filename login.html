@@ -62,6 +62,7 @@
                 res.textContent = `Signed in as ${email}. Checking orders…`;
                 const q = query(collection(db, "orders"), where("Email Address", "==", email));
                 const shot = await getDocs(q);
+                window.location.href = "main.html";
                 if (!shot.empty) {
                     res.textContent = "Found order";
                 } else {
