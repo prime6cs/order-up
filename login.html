@@ -49,33 +49,14 @@
         };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
         onAuthStateChanged(auth, (user) => {
             if (user) window.location.href = "main.html";
         }
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
-        const btn = document.getElementById("login");
-        const res = document.getElementById("result");
-        btn.onclick = async () => {
-            try {
-                res.textContent = "Signing in...";
-                const response = await signInWithPopup(auth, provider);
-                const email = response.user.email;
-                // you can change this query if your collection is called smtn different
-                res.textContent = `Signed in as ${email}. Checking orders…`;
-                const q = query(collection(db, "orders"), where("Email Address", "==", email));
-                const shot = await getDocs(q);
-                window.location.href = "main.html";
-                if (!shot.empty) {
-                    res.textContent = "Found order";
-                } else {
-                    res.textContent = "No order found";
-                }
-            } catch (e) {
-                console.error(e);
-                res.textContent = "Could not login";
-            }
-        }
+        document.getElementById("login").onclick = async () => {
+            await signInWithPopup(auth, provider);
+            window.location.href = "main.html";
+        };
     </script>
 </body>
 </html>
