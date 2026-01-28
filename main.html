@@ -6,6 +6,7 @@
   </head>
   <body>
     <h1 id="status">Please wait...</h1>
+    <div id="order"></div>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
       import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -20,12 +21,22 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const status = document.getElementById("status");
+      const oDiv = document.getElementById("order");
       onAuthStateChanged(auth, (user) => {
-      if (user) {
-        status.textContent = "Authorized";
-      } else {
-        status.textContent = "Unauthorized";
-      }
+        if (!user) {
+          status.textContent = "Unauthorized, please sign in with the correct email";
+          return;
+        }
+        status.textContent = "Checking for orders...";
+        const email = user.email;
+        const q = query(collection(db, "orders"), where("Email Address", "==", email));
+        const sn = await getDocs(q);
+        if (!sn.empty) {
+          orderDiv.textContent = "Found order";
+        } else {
+          orderDiv.textContent = "You currently have no orders.";
+        }
+          
       });
     </script>
   </body>
