@@ -59,7 +59,7 @@
           const q = query(collection(db, "orders"), where("Email Address", "==", email));
           const sn = await getDocs(q);
           if (!sn.empty) {
-            status.textContent = `Found ${snapshot.size} order(s):`;
+            status.textContent = `Found ${sn.size} order(s):`;
             oDiv.textContent = "";
             sn.docs.forEach((doc, idx) => {
               const info = doc.data();
@@ -75,7 +75,7 @@
       });
       document.getElementById("logout").onclick = async () => {
         await signOut(auth);
-        window.location.href = "login.html";
+        window.location.href = "index.html";
       };
     </script>
   </body>
