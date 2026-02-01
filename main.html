@@ -141,7 +141,7 @@
         <hr>
     `;
     for (const key in info) {
-      if (key === "ORDER STATUS" || key === "ORDER ID") continue;
+      if (["ORDER STATUS", "ORDER ID", "Timestamp", "queue_pos"].includes(key)) continue;
       html += `
         <div class="order-row">
           <span>${key}</span>
