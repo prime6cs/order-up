@@ -115,7 +115,7 @@
         const mainQueue = doc(db, "orders", "extra");
         const mainInfo = await getDoc(mainQueue);
         if (mainInfo.exists()) {
-          const cur = mainInfo.data().globalQueueLength;
+          const cur = mainInfo.data().globalQueueCount;
           document.getElementById("globalqueue").textContent = cur;
         }
         try {
