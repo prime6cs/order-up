@@ -138,10 +138,11 @@
         <div><strong>Order No.${idx + 1} (${doc.id})</strong></div>
         <div>Status: ${info["ORDER STATUS"] ?? "-"}</div>
         <div>Timestamp: ${info["Timestamp"] ?? "-"}</div>
+        <div>Order Total: ${info["TOTAL"] ?? "-"}</div>
         <hr>
     `;
     for (const key in info) {
-      if (["ORDER STATUS", "ORDER ID", "Timestamp", "queue_pos"].includes(key)) continue;
+      if (["ORDER STATUS", "ORDER ID", "Timestamp", "queue_pos", "TOTAL"].includes(key)) continue;
       html += `
         <div class="order-row">
           <span>${key}</span>
